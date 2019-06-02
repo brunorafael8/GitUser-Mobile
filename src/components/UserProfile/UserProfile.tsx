@@ -3,6 +3,7 @@ import { FlatList, Linking, ScrollView, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Octicons'
 import { createFragmentContainer, graphql } from 'react-relay'
 import styled from 'styled-components/native'
+import { UserProfile_user } from './__generated__/UserProfile_user.graphql.ts'
 
 const Profile = styled.View`
   background: #fff;
@@ -48,7 +49,11 @@ const UserOrganizaiton = styled.Image`
   height: 30px;
 `
 
-const UserProfile = props => {
+export interface UserProfileProps {
+  user: UserProfile_user
+}
+
+const UserProfile = (props: UserProfileProps) => {
   const { user } = props
 
   return (
