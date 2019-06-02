@@ -5873,6 +5873,11 @@ relay-compiler@^4.0.0:
     signedsource "^1.0.0"
     yargs "^9.0.0"
 
+relay-hooks@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/relay-hooks/-/relay-hooks-0.3.0.tgz#a8225bab6f0f01dcc28a9cab1cef5ebd51b472eb"
+  integrity sha512-BmLWotYN/GKOfSGIrYF4dOnyTr3xEqYjs8Yc5pTa/akqclqhEQfnw/5EvJ5XjMBUevQwpEoTeAjFFNkqDFZ4Rg==
+
 relay-runtime@4.0.0, relay-runtime@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/relay-runtime/-/relay-runtime-4.0.0.tgz#5cf50f52e3ea56ec81f0b5fed05b03e99a9e3906"
