@@ -2,6 +2,7 @@ import React from 'react'
 import { FlatList, Linking, ScrollView, Text, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Octicons'
 import { createFragmentContainer, graphql } from 'react-relay'
+import { useFragment } from 'relay-hooks'
 import styled from 'styled-components/native'
 import { UserProfile_user } from './__generated__/UserProfile_user.graphql.ts'
 
@@ -53,60 +54,7 @@ export interface UserProfileProps {
   user: UserProfile_user
 }
 
-const UserProfile = (props: UserProfileProps) => {
-  const { user } = props
-
-  return (
-    <>
-      <UserName>{user.name}</UserName>
-      <UserAvatar source={{ uri: `${user.avatarUrl}` }} alt="" />
-      <UserLogin>{user.login}</UserLogin>
-      <UserBio>{user.bio}</UserBio>
-      <UserCompany>{user.company}</UserCompany>
-      <UserLocation>{user.location}</UserLocation>
-      <Userlinks href={`mailto:${user.email}`}>{user.email}</Userlinks>
-      <Userlinks href={user.websiteUrl}>{user.websiteUrl}</Userlinks>
-      <UserOrganizaitons>
-        {user.organizations.edges.map(({ node }) => (
-          <View aria-label={node.login} onPress={() => Linking.openURL(node.url)} key={node.id}>
-            <UserOrganizaiton source={{ uri: `${node.avatarUrl}` }} />
-          </View>
-        ))}
-      </UserOrganizaitons>
-      <Text
-        style={{
-          borderBottomColor: '#e36209',
-          borderBottomWidth: 2,
-          fontSize: 15,
-          color: '#000',
-          marginTop: 20,
-        }}
-      >
-        Repositories:{' '}
-      </Text>
-      <FlatList
-        data={user.repositories.nodes}
-        keyExtractor={user.repositories.nodes.id}
-        renderItem={({ item }) => (
-          <View style={{ marginTop: 20 }}>
-            <Text style={{ color: '#000', fontSize: 15 }}>{item.name}</Text>
-            <Text style={{ color: '#000', fontSize: 15 }}>{item.description}</Text>
-            <View style={{ flexDirection: 'row' }}>
-              <Text style={{ color: '#000', fontSize: 10, marginLeft: 10 }}>
-                <Icon name="star" size={20} color="#000" /> {item.stargazers.totalCount}
-              </Text>
-              <Text style={{ color: '#000', fontSize: 12, marginLeft: 10 }}>
-                <Icon name="repo-forked" size={20} color="#000" /> {item.forks.totalCount}
-              </Text>
-            </View>
-          </View>
-        )}
-      />
-    </>
-  )
-}
-
-const UserProfileFragmentContainer = createFragmentContainer(UserProfile, {
+const fragmentSpec = {
   user: graphql`
     fragment UserProfile_user on User {
       avatarUrl
@@ -143,6 +91,61 @@ const UserProfileFragmentContainer = createFragmentContainer(UserProfile, {
       }
     }
   `,
-})
+}
 
-export default UserProfileFragmentContainer
+const UserProfile = (props: UserProfileProps) => {
+  const fragmentProps = useFragment(props, fragmentSpec)
+
+  const { user } = fragmentProps
+
+  return (
+    <>
+      <UserName>{user.name}</UserName>
+      <UserAvatar source={{ uri: `${user.avatarUrl}` }} alt="" />
+      <UserLogin>{user.login}</UserLogin>
+      <UserBio>{user.bio}</UserBio>
+      <UserCompany>{user.company}</UserCompany>
+      <UserLocation>{user.location}</UserLocation>
+      <Userlinks href={`mailto:${user.email}`}>{user.email}</Userlinks>
+      <Userlinks href={user.websiteUrl}>{user.websiteUrl}</Userlinks>
+      <UserOrganizaitons>
+        {user.organizations.edges.map(({ node }) => (
+          <View aria-label={node.login} onPress={() => Linking.openURL(node.url)} key={node.id}>
+            <UserOrganizaiton source={{ uri: `${node.avatarUrl}` }} />
+          </View>
+        ))}
+      </UserOrganizaitons>
+      <Text
+        style={{
+          borderBottomColor: '#e36209',
+          borderBottomWidth: 2,
+          fontSize: 15,
+          color: '#000',
+          marginTop: 20,
+        }}
+      >
+        Repositories:
+      </Text>
+      <FlatList
+        data={user.repositories.nodes}
+        keyExtractor={user.repositories.nodes.id}
+        renderItem={({ item }) => (
+          <View style={{ marginTop: 20 }}>
+            <Text style={{ color: '#000', fontSize: 15 }}>{item.name}</Text>
+            <Text style={{ color: '#000', fontSize: 15 }}>{item.description}</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ color: '#000', fontSize: 10, marginLeft: 10 }}>
+                <Icon name="star" size={20} color="#000" /> {item.stargazers.totalCount}
+              </Text>
+              <Text style={{ color: '#000', fontSize: 12, marginLeft: 10 }}>
+                <Icon name="repo-forked" size={20} color="#000" /> {item.forks.totalCount}
+              </Text>
+            </View>
+          </View>
+        )}
+      />
+    </>
+  )
+}
+
+export default UserProfile

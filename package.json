@@ -22,6 +22,7 @@
     "react-navigation": "^3.11.0",
     "react-relay": "^4.0.0",
     "relay-compiler-language-typescript": "^4.3.0",
+    "relay-hooks": "^0.3.0",
     "relay-runtime": "^4.0.0",
     "styled-components": "^4.2.1"
   },
