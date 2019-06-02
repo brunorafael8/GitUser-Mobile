@@ -1,9 +1,11 @@
 import React from 'react'
 import { ScrollView, Text } from 'react-native'
+import { NavigationScreenProp } from 'react-navigation'
 import { graphql, QueryRenderer } from 'react-relay'
 import styled from 'styled-components/native'
 import UserProfile from '../../components/UserProfile/UserProfile'
 import environment from '../../createRelayEnvironment'
+import { UserQuery } from './__generated__/UserQuery.graphql.ts'
 
 const UserContainer = styled.ScrollView`
   background: #fff;
@@ -16,8 +18,11 @@ const PlaceholderText = styled.Text`
   color: #000;
   font-size: 16px;
 `
+export interface UserProps {
+  query: UserQuery
+}
 
-const User = props => {
+const User = (props: UserProps) => {
   const { user } = props.query
 
   return (
@@ -35,7 +40,7 @@ const query = graphql`
   }
 `
 
-const UserRenderer = ({ navigation }) => {
+const UserRenderer = ({ navigation }: NavigationScreenProp<>) => {
   return (
     <QueryRenderer
       environment={environment}
