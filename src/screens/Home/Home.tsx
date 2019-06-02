@@ -1,15 +1,15 @@
-import React, { PureComponent } from 'react';
-import { Text, View, Keyboard } from 'react-native';
-import styled from 'styled-components/native';
+import React, { PureComponent } from 'react'
+import { Keyboard } from 'react-native'
+import styled from 'styled-components/native'
 
-import Search from '../../components/Search/Search';
-import SearchButton from '../../components/SearchButton/SearchButton';
+import Search from '../../components/Search/Search'
+import SearchButton from '../../components/SearchButton/SearchButton'
 
 const HomePage = styled.View`
   background: white;
   padding: 10px;
   height: 100%;
-`;
+`
 
 const Title = styled.Text`
   color: #000;
@@ -17,52 +17,61 @@ const Title = styled.Text`
   font-size: 30px;
   border-bottom-color: #000;
   border-bottom-width: 1px;
-`;
+`
+
 const ErrorText = styled.Text`
   color: #ed2025;
   text-align: center;
-`;
+`
+
+const SearchButtonContent = styled.View``
+
+const SearchButtonText = styled.Text`
+  color: #fcfdfe;
+  font-size: 18;
+  font-weight: bold;
+  align-self: center;
+`
+
 const FormSearch = styled.View`
   margin-top: 50px;
   padding: 10px;
-`;
+`
 
 class Home extends PureComponent {
   state = {
     user: '',
     errors: [],
-  };
+  }
 
   onSearch = () => {
     if (this.onValid()) {
-      this.props.navigation.navigate('User', { name: this.state.user });
-      Keyboard.dismiss();
+      this.props.navigation.navigate('User', { name: this.state.user })
+      Keyboard.dismiss()
     }
-  };
+  }
+
   onValid = () => {
     if (!this.onValidLength()) {
-      this.setState({ errors: [] });
-      setTimeout(
-        () =>
-          this.setState({ errors: [...this.state.errors, 'User inválido.'] }),
-        100,
-      );
-      return false;
+      this.setState({ errors: [] })
+      setTimeout(() => this.setState({ errors: [...this.state.errors, 'User inválido.'] }), 100)
+      return false
     }
-    return true;
-  };
+    return true
+  }
+
   onValidLength = () => {
     if (this.state.user.length > 0) {
-      return true;
+      return true
     }
-    return false;
-  };
+    return false
+  }
+
   render() {
     return (
       <HomePage>
         <Title>GITUSER</Title>
-        {this.state.errors &&
-          this.state.errors.map(erro => <ErrorText>{erro}</ErrorText>)}
+        {this.state.errors && this.state.errors.map((erro, i) => <ErrorText key={i}>{erro}</ErrorText>)}
         <FormSearch>
           <Search
             autoFocus={true}
@@ -72,23 +81,14 @@ class Home extends PureComponent {
             placeholder="Ex: brunorafael8"
           />
           <SearchButton onPress={this.onSearch}>
-            <View>
-              <Text
-                style={{
-                  color: '#fcfdfe',
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                  alignSelf: 'center',
-                }}
-              >
-                Search
-              </Text>
-            </View>
+            <SearchButtonContent>
+              <SearchButtonText>Search</SearchButtonText>
+            </SearchButtonContent>
           </SearchButton>
         </FormSearch>
       </HomePage>
-    );
+    )
   }
 }
 
-export default Home;
+export default Home

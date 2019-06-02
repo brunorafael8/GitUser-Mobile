@@ -1,17 +1,13 @@
-var fetch = require('node-fetch');
-var fs = require('fs');
+var fetch = require('node-fetch')
+var fs = require('fs')
 try {
-  var token = require('../src/token.tsx');
+  var token = require('../src/token.tsx')
 } catch (e) {
-  console.log('ou need to install your token: `yarn run token`');
-  process.exit(1);
+  console.log('ou need to install your token: `yarn run token`')
+  process.exit(1)
 }
 
-const {
-  buildClientSchema,
-  introspectionQuery,
-  printSchema,
-} = require('graphql/utilities');
+const { buildClientSchema, introspectionQuery, printSchema } = require('graphql/utilities')
 
 fetch('https://api.github.com/graphql', {
   method: 'POST',
@@ -24,6 +20,6 @@ fetch('https://api.github.com/graphql', {
 })
   .then(res => res.json())
   .then(res => {
-    const schemaString = printSchema(buildClientSchema(res.data));
-    fs.writeFileSync('schema.graphql', schemaString);
-  });
+    const schemaString = printSchema(buildClientSchema(res.data))
+    fs.writeFileSync('schema.graphql', schemaString)
+  })

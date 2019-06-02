@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled from 'styled-components/native'
 
 const Search = styled.TextInput`
   height: 50px;
@@ -8,6 +8,6 @@ const Search = styled.TextInput`
   border-left-width: 30px;
   padding: 15px;
   border-color: white;
-`;
+`
 
-export default Search;
+export default Search

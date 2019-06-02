@@ -1,7 +1,7 @@
-import React from "react";
-import { createAppContainer, createStackNavigator } from "react-navigation";
-import Home from "./screens/Home/Home";
-import User from "./screens/User/User";
+import React from 'react'
+import { createAppContainer, createStackNavigator } from 'react-navigation'
+import Home from './screens/Home/Home'
+import User from './screens/User/User'
 
 const App = createAppContainer(
   createStackNavigator(
@@ -9,25 +9,25 @@ const App = createAppContainer(
       Home: {
         screen: Home,
         navigationOptions: {
-          title: "New Search",
+          title: 'New Search',
           headerTitleStyle: {
-            alignSelf: "center"
-          }
-        }
+            alignSelf: 'center',
+          },
+        },
       },
       User: {
         screen: User,
         navigationOptions: {
-          title: "Profile",
+          title: 'Profile',
           headerTitleStyle: {
-            alignSelf: "center"
-          }
-        }
-      }
+            alignSelf: 'center',
+          },
+        },
+      },
     },
     {
-      initialRouteName: "Home"
-    }
-  )
-);
-export default () => <App />;
+      initialRouteName: 'Home',
+    },
+  ),
+)
+export default () => <App />
