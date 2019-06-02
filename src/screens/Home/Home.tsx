@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, { useState } from 'react'
 import { Keyboard } from 'react-native'
+import { NavigationScreenProp } from 'react-navigation'
 import styled from 'styled-components/native'
-
 import Search from '../../components/Search/Search'
 import SearchButton from '../../components/SearchButton/SearchButton'
 
@@ -38,57 +38,58 @@ const FormSearch = styled.View`
   padding: 10px;
 `
 
-class Home extends PureComponent {
-  state = {
-    user: '',
-    errors: [],
-  }
+export interface HomeProps {
+  navigation: NavigationScreenProp<>
+}
 
-  onSearch = () => {
-    if (this.onValid()) {
-      this.props.navigation.navigate('User', { name: this.state.user })
+const Home = (props: HomeProps) => {
+  const [user, setUser] = useState<string>('')
+  const [errors, setErrors] = useState<string[]>([])
+
+  const onSearch = () => {
+    if (onValid()) {
+      props.navigation.navigate('User', { name: user })
       Keyboard.dismiss()
     }
   }
 
-  onValid = () => {
-    if (!this.onValidLength()) {
-      this.setState({ errors: [] })
-      setTimeout(() => this.setState({ errors: [...this.state.errors, 'User inválido.'] }), 100)
+  const onValid = () => {
+    if (!onValidLength()) {
+      setErrors([])
+      setTimeout(() => setErrors([...errors, 'User inválido.']), 100)
       return false
     }
     return true
   }
 
-  onValidLength = () => {
-    if (this.state.user.length > 0) {
+  const onValidLength = () => {
+    if (user.length > 0) {
       return true
     }
+
     return false
   }
 
-  render() {
-    return (
-      <HomePage>
-        <Title>GITUSER</Title>
-        {this.state.errors && this.state.errors.map((erro, i) => <ErrorText key={i}>{erro}</ErrorText>)}
-        <FormSearch>
-          <Search
-            autoFocus={true}
-            maxLength={15}
-            onChangeText={user => this.setState({ user })}
-            onSubmitEditing={this.onSearch}
-            placeholder="Ex: brunorafael8"
-          />
-          <SearchButton onPress={this.onSearch}>
-            <SearchButtonContent>
-              <SearchButtonText>Search</SearchButtonText>
-            </SearchButtonContent>
-          </SearchButton>
-        </FormSearch>
-      </HomePage>
-    )
-  }
+  return (
+    <HomePage>
+      <Title>GITUSER</Title>
+      {errors && errors.map((erro, i) => <ErrorText key={i}>{erro}</ErrorText>)}
+      <FormSearch>
+        <Search
+          autoFocus={true}
+          maxLength={15}
+          onChangeText={text => setUser(text)}
+          onSubmitEditing={onSearch}
+          placeholder="Ex: brunorafael8"
+        />
+        <SearchButton onPress={onSearch}>
+          <SearchButtonContent>
+            <SearchButtonText>Search</SearchButtonText>
+          </SearchButtonContent>
+        </SearchButton>
+      </FormSearch>
+    </HomePage>
+  )
 }
 
 export default Home
