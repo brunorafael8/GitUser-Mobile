@@ -1,66 +1,41 @@
 import React from "react";
-import { Text } from "react-native";
-
-import { graphql, createFragmentContainer, QueryRenderer } from "react-relay";
+import { Text, ScrollView } from "react-native";
+import { graphql, QueryRenderer } from "react-relay";
 import environment from "../../createRelayEnvironment";
-
+import styled from "styled-components/native";
 import UserProfile from "../../components/UserProfile/UserProfile";
 
-class User extends React.Component {
-  render() {
-    const { user } = this.props;
-    return <UserProfile user={user} />;
-  }
-}
+const UserContainer = styled.ScrollView`
+  background: #fff;
+  height: 100%;
+  padding: 20px;
+  flex-direction: column;
+`;
 
-const UserProfileFragmentContainer = createFragmentContainer(User, {
-  user: graphql`
-    fragment User_user on User {
-      avatarUrl
-      name
-      login
-      bio
-      company
-      location
-      email
-      websiteUrl
-      organizations(first: 10) {
-        edges {
-          node {
-            id
-            avatarUrl
-            teamsUrl
-            url
-            login
-          }
-        }
-      }
-      repositories(last: 10) {
-        nodes {
-          id
-          name
-          description
-          stargazers {
-            totalCount
-          }
-          forks {
-            totalCount
-          }
-        }
-      }
-    }
-  `
-});
+const PlaceholderText = styled.Text`
+  color: #000;
+  font-size: 16px;
+`;
+
+const User = props => {
+  const { user } = props.query;
+  console.log(user)
+  return (
+    <UserContainer>
+      <UserProfile user={user} />
+    </UserContainer>
+  );
+};
 
 const query = graphql`
   query UserQuery($login: String!) {
     user(login: $login) {
-      ...User_user
+      ...UserProfile_user
     }
   }
 `;
 
-const UserProfileRenderer = ({ navigation }) => {
+const UserRenderer = ({ navigation }) => {
   return (
     <QueryRenderer
       environment={environment}
@@ -70,12 +45,12 @@ const UserProfileRenderer = ({ navigation }) => {
         if (error) console.error(new Error(error));
 
         if (props) {
-          return <UserProfileFragmentContainer user={props.user} />;
+          return <User query={props} />;
         } else {
           return (
-            <Text>
+            <PlaceholderText>
               Searching for {navigation.state.params.name}, loading...
-            </Text>
+            </PlaceholderText>
           );
         }
       }}
@@ -83,4 +58,4 @@ const UserProfileRenderer = ({ navigation }) => {
   );
 };
 
-export default UserProfileRenderer;
+export default UserRenderer;

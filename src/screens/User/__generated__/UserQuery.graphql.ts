@@ -1,13 +1,13 @@
 /* tslint:disable */
 
 import { ConcreteRequest } from "relay-runtime";
-type User_user$ref = any;
+type UserProfile_user$ref = any;
 export type UserQueryVariables = {
     readonly login: string;
 };
 export type UserQueryResponse = {
     readonly user: {
-        readonly " $fragmentRefs": User_user$ref;
+        readonly " $fragmentRefs": UserProfile_user$ref;
     } | null;
 };
 export type UserQuery = {
@@ -22,12 +22,12 @@ query UserQuery(
   $login: String!
 ) {
   user(login: $login) {
-    ...User_user
+    ...UserProfile_user
     id
   }
 }
 
-fragment User_user on User {
+fragment UserProfile_user on User {
   avatarUrl
   name
   login
@@ -136,7 +136,7 @@ return {
         "selections": [
           {
             "kind": "FragmentSpread",
-            "name": "User_user",
+            "name": "UserProfile_user",
             "args": null
           }
         ]
@@ -317,10 +317,10 @@ return {
     "operationKind": "query",
     "name": "UserQuery",
     "id": null,
-    "text": "query UserQuery(\n  $login: String!\n) {\n  user(login: $login) {\n    ...User_user\n    id\n  }\n}\n\nfragment User_user on User {\n  avatarUrl\n  name\n  login\n  bio\n  company\n  location\n  email\n  websiteUrl\n  organizations(first: 10) {\n    edges {\n      node {\n        id\n        avatarUrl\n        teamsUrl\n        url\n        login\n      }\n    }\n  }\n  repositories(last: 10) {\n    nodes {\n      id\n      name\n      description\n      stargazers {\n        totalCount\n      }\n      forks {\n        totalCount\n      }\n    }\n  }\n}\n",
+    "text": "query UserQuery(\n  $login: String!\n) {\n  user(login: $login) {\n    ...UserProfile_user\n    id\n  }\n}\n\nfragment UserProfile_user on User {\n  avatarUrl\n  name\n  login\n  bio\n  company\n  location\n  email\n  websiteUrl\n  organizations(first: 10) {\n    edges {\n      node {\n        id\n        avatarUrl\n        teamsUrl\n        url\n        login\n      }\n    }\n  }\n  repositories(last: 10) {\n    nodes {\n      id\n      name\n      description\n      stargazers {\n        totalCount\n      }\n      forks {\n        totalCount\n      }\n    }\n  }\n}\n",
     "metadata": {}
   }
 };
 })();
-(node as any).hash = '6a241cdbeb90f0ae3d1b1ba7537eacae';
+(node as any).hash = '2b1af43ac92808fd77e9bc43cae15806';
 export default node;
