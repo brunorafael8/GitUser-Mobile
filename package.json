@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "react": "16.9.0",
-    "react-native": "0.61.4"
+    "react-native": "0.61.4",
+    "styled-components": "^4.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
@@ -19,6 +20,7 @@
     "@types/jest": "^24.0.18",
     "@types/react-native": "^0.60.22",
     "@types/react-test-renderer": "16.9.0",
+    "@types/styled-components": "^4.4.0",
     "babel-jest": "^24.9.0",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.56.0",
